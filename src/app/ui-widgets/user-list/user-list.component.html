@@ -1,0 +1,43 @@
+<div class="container">
+  <h2>User Management</h2>
+  
+  <div class="add-user">
+    <h3>Add New User</h3>
+    <input #nameInput placeholder="Enter name..." />
+    <input #emailInput placeholder="Enter email..." />
+    <button (click)="addUser(nameInput.value, emailInput.value); nameInput.value = ''; emailInput.value = ''">
+      Add User
+    </button>
+  </div>
+
+  <div class="user-list">
+    <h3>Users</h3>
+    <ul>
+      <li *ngFor="let user of users$ | async">
+        <span class="user-info">
+          <strong>{{ user.name }}</strong>
+          <span>({{ user.email }})</span>
+          <span [class]="user.isActive ? 'status active' : 'status inactive'">
+            {{ user.isActive ? 'Active' : 'Inactive' }}
+          </span>
+        </span>
+        <div class="actions">
+          <button (click)="toggleUserStatus(user)">
+            {{ user.isActive ? 'Deactivate' : 'Activate' }}
+          </button>
+          <button class="delete" (click)="deleteUser(user.id)">Delete</button>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<button
+  *ngFor="let themeName of themeService.themeNames"
+  (click)="themeService.set(themeName)"
+  [class.active]="themeService.activeTheme === themeName"
+>
+  {{ themeName }}
+</button>
+
+<div class="info">active theme: {{ themeService.activeTheme }}</div>
